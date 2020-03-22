@@ -1,0 +1,417 @@
+#The Adventure started 6:02PM, 3/19/2020.
+#game code down here ;)
+# IMPORTS
+import time
+import random
+
+# VARS (IN THE ORDER THEY APPEAR IN THE CODE)
+birdcounter = 0
+inventoryKey = False
+bakerQuest = False
+flourObtain = 0
+inventoryGoodKey = False
+yourATK = 5
+bossATK = 4
+smithQuest = False
+inventoryGem = False
+userHP = 20
+bossHP = 35
+preEncounter = 0
+# PLACEHOLDERS
+"""
+Hey, quick note.
+The movement system runs two ways...
+Which creates a dependency issue.
+These placeholders are reconverted at the end of the code,
+and eliminate the dependency issue.
+"""
+def a():
+    None
+def b():
+    None
+def c():
+    None
+def d():
+    None
+def e():
+    None
+def f():
+    None
+def g():
+    None
+def h():
+    None
+def i():
+    None
+def j():
+    None
+def k():
+    None
+# GAME MECHANICS BELOW
+#START MENU
+def startMenu():
+    print('#############')
+    print('# Adventure #')
+    print('#############\n')
+    print('> play!')
+    print('> help!')
+    print('> quit!')
+    startMenuInput = [input()]
+    if 'play' in startMenuInput[0]:
+        a()
+    elif 'help' in startMenuInput[0]:
+        print('use north, south, east, and west to move around;')
+        print('use int to interact with an object;')
+        print('use attack to attack an enemy in battle;')
+        print('that\'s it! gl, hf. press any key to return.')
+        print('> back')
+        helpScreenInput = [input()]
+        if 'back' in helpScreenInput[0]:
+            startMenu()
+        else:
+            startMenu()
+    elif 'quit' in startMenuInput[0]:
+        print('thanks for playing!')
+        time.sleep(3)
+        quit()
+    else:
+        print('invalid request!')
+        print('returning you to the start menu...')
+        time.sleep(2)
+        startMenu()
+#TOWN ENTRANCE
+def townEntry():
+    global birdcounter
+    global inventoryKey
+    print('you begin in a lively, bustling town.')
+    print('a bird stares at you. it seems to be guarding something...')
+    print('> north')
+    print('> int \n')
+    townEntryInput = [input()]
+    if 'north' in townEntryInput[0]:
+        b()
+    elif 'int' in townEntryInput[0]:
+        if birdcounter == 0:
+            print('you shoo away the bird.')
+            print('it dropped a rusty key, broken into two.')
+            print('you now own the Broken Key. \n')
+            inventoryKey = True
+            birdcounter += 1
+            townEntry()
+        else:
+            print('there is nothing new to see here... \n')
+            time.sleep(2)
+            townEntry()
+    else:
+        print('invalid request! \n')
+        time.sleep(2)
+        townEntry()
+# TOWN SQUARE
+def townSquare():
+    print('you enter the cheerful town square.')
+    print('a newswoman sits on the fountain bench.')
+    print('she seems knowledgeable...')
+    print('> north')
+    print('> south')
+    print('> east')
+    print('> west')
+    print('> int \n')
+    townSquareInput = [input()]
+    if 'north' in townSquareInput[0]:
+        f()
+    elif 'south' in townSquareInput[0]:
+        a()
+    elif 'east' in townSquareInput[0]:
+        c()
+    elif 'west' in townSquareInput[0]:
+        d()
+    elif 'int' in townSquareInput[0]:
+        print('you talk to the newswoman...')
+        print('she informs you of a theif in the city.')
+        print('she wishes you good day. \n')
+        townSquare()
+    else:
+        print('invalid request! \n')
+        time.sleep(2)
+        townSquare()
+# ABANDONED SHOP
+def abandonedShop():
+    global inventoryKey
+    global flourObtain
+    global bakerQuest
+    global inventoryFlour
+    global inventoryGoodKey
+    print('you come across a dusty, old shop.')
+    print('the entrance is guarded by a rusty lock that fits a key.')
+    print('> south')
+    print('> east \n')
+    if inventoryKey == True:
+        print('> use \n')
+    else:
+        None
+    abandonedShopInput = [input()]
+    if 'south' in abandonedShopInput[0]:
+        e()
+    elif 'east' in abandonedShopInput[0]:
+        b()
+    elif 'use' in abandonedShopInput[0] and flourObtain == 0 and inventoryGoodKey == True:
+        print('you look inside the shop...')
+        if bakerQuest == True:
+            print('you found the flour you were looking for!')
+            print('you have obtained Flour.')
+            inventoryFlour = True
+            flourObtain += 1
+            inventoryGoodKey = False
+            print('you step ouside of the shop. \n')
+            abandonedShop()
+        else:
+            print('you found some flour...')
+            print('...but you don\'t know what you will use it for.')
+            print('you have obtained Flour.')
+            inventoryFlour = True
+            flourObtain += 1
+            inventoryGoodKey = False
+            print('you step outside of the shop. \n')
+            abandonedShop()
+    elif 'use' in abandonedShopInput[0] and inventoryGoodKey == False:
+        print('the door remains locked...')
+        abandonedShop()
+    elif 'use' in abandonedShopInput[0] and flourObtain >= 1:
+        print('there is nothing more to find here... \n')
+        abandonedShop()
+    else:
+        print('invalid request! \n')
+        time.sleep(2)
+        abandonedShop()
+#BAKERY
+def bakery():
+    global bakerQuest
+    global yourATK
+    global inventoryFlour
+    print('you come across a busy bakery.')
+    print('inside, a distressed baker serves customers.')
+    print('> west')
+    print('> int \n')
+    if bakerQuest == True:
+        print('> use \n')
+    else:
+        None
+    bakeryInput = [input()]
+    if 'west' in bakeryInput[0]:
+        b()
+    elif 'int' in bakeryInput[0]:
+        print('you talk to the baker...')
+        print('he tells you that a thief has stolen his flour.')
+        print('he will reward you if you can get him some more. \n')
+        bakerQuest = True
+        bakery()
+    elif 'use' in bakeryInput[0]:
+        if inventoryFlour == True:
+            print('the baker appreciates your help.')
+            print('he rewards you with a medallion...')
+            print('which increases ATK by two. \n')
+            yourATK += 2
+            inventoryFlour = False
+            bakery()
+        else:
+            print('you don\'t have the flour... \n')
+            time.sleep(2)
+            bakery()
+    else:
+        print('invalid request! \n')
+        bakery()
+# BLACKSMITHERY
+def blacksmith():
+    global smithQuest
+    global inventoryKey
+    global inventoryGoodKey
+    print('here lies the smithery.')
+    print('the master is sitting at his forge.')
+    print('he doesn\'t look busy...')
+    print('> north')
+    print('> int \n')
+    if smithQuest == True:
+        print('> use \n')
+    else:
+        None
+    blacksmithInput = [input()]
+    if 'north' in blacksmithInput[0]:
+        d()
+    elif 'int' in blacksmithInput[0]:
+        print('he tells you he can fix anything...')
+        if inventoryKey == True:
+            print('...even your key. \n')
+            smithQuest = True
+            blacksmith()
+        else:
+            time.sleep(1)
+            blacksmith()
+    elif 'use' in blacksmithInput[0]:
+        if inventoryKey == True:
+            print('the master fixes the key for you.')
+            print('obtained the Good Key. \n')
+            inventoryGoodKey = True
+            inventoryKey = False
+            blacksmith()
+        else:
+            print('you have no key to be fixed... \n')
+            time.sleep(2)
+            blacksmith()
+    else:
+        print('invalid request! \n')
+        time.sleep(2)
+        blacksmith()
+#ROAD
+def road():
+    global inventoryGem
+    print('you walk along the old road.')
+    print('on your right, you see something glimmer under a rock.')
+    print('> west')
+    print('> south')
+    print('> int \n')
+    roadInput = [input()]
+    if 'west' in roadInput[0]:
+        g()
+    elif 'south' in roadInput[0]:
+        b()
+    elif 'int' in roadInput[0]:
+        print('you lift up the rock,')
+        print('and you find an Edible Gem! \n')
+        inventoryGem = True
+        road()
+    else:
+        print('invalid request! \n')
+        time.sleep(2)
+        road()
+#MUDDY PATH
+def muddyPath():
+    print('the road narrows to a single, muddy path.')
+    print('there is an eerie silence on the path...')
+    print('> west')
+    print('> east \n')
+    muddyPathInput = [input()]
+    if 'west' in muddyPathInput[0]:
+        h()
+    elif 'east' in muddyPathInput[0]:
+        f()
+    else:
+        print('invalid request!')
+        time.sleep(2)
+        muddyPath()
+#BOSSFIGHT PRE
+def bossfightPre():
+    global preEncounter
+    if preEncounter == 0:
+        print('a man is sitting comfortably on a rock.')
+        print('he says: \"i\'ve been watching you for a while...')
+        print('i can\'t let you ruin my clean record, so you need to die!\"')
+        print('he charges at you. \n')
+    else:
+        print('ready to continue? \n')
+    i()
+#FIGHT
+def fightYourTurn():
+    global userHP
+    global bossHP
+    global yourATK
+    global bossATK
+    global inventoryGem
+    while userHP >= 1 and bossHP >= 1:
+        print('your HP:' + str(userHP))
+        print('boss\'s HP:' + str(bossHP) +'\n')
+        print('your move:')
+        print('> attack')
+        print('> consume')
+        print('> run \n')
+        fightInput = [input()]
+        if 'attack' in fightInput[0]:
+            userAttackChance = [str(random.randint(1,4))]
+            if '1' in userAttackChance[0]:
+                print('miss! \n')
+                j()
+            else:
+                print('hit! \n')
+                bossHP -= yourATK
+                j()
+        elif 'consume' in fightInput[0]:
+            if inventoryGem == True:
+                userHP += 10
+                j()
+            else:
+                print('there was no food to eat \n')
+                j()
+        elif 'run' in fightInput[0]:
+            g()
+        else:
+            print('invalid request! \n')
+            time.sleep(2)
+            fightYourTurn()
+    if userHP <= 1:
+        print('game over...')
+        print('exiting program in ten seconds... \n')
+        time.sleep(10)
+        quit()
+    if bossHP <= 1:
+        print('congratuations!')
+        print('you win!')
+        print('exiting program in ten seconds... \n')
+        time.sleep(10)
+        quit()
+#BOSS TURN
+def fightBossTurn():
+    global userHP
+    global bossHP
+    global bossATK
+    global yourATK
+    while userHP >= 1 and bossHP >= 1:
+        print('your HP:' + str(userHP))
+        print('boss\'s HP:' + str(bossHP) +'\n')
+        print('boss is attacking... \n')
+        time.sleep(3)
+        bossAttackChance = [str(random.randint(1,2))]
+        if '1' in bossAttackChance[0]:
+            print('miss! \n')
+            i()
+        else:
+            print('hit! \n')
+            userHP -= bossATK
+            i()
+    if userHP <= 1:
+        print('game over...')
+        print('exiting program in ten seconds... \n')
+        time.sleep(10)
+        quit()
+    if bossHP <= 1:
+        print('congratuations!')
+        print('you win!')
+        print('exiting program in ten seconds... \n')
+        time.sleep(10)
+        quit()
+#PLACEHOLDER REPLACEMENT (DUE TO DEPENDANCY ISSUE)
+def a():
+    townEntry()
+def b():
+    townSquare()
+def c():
+    bakery()
+def d():
+    abandonedShop()
+def e():
+    blacksmith()
+def f():
+    road()
+def g():
+    muddyPath()
+def h():
+    bossfightPre()
+def i():
+    fightYourTurn()
+def j():
+    fightBossTurn()
+#RUN GAME
+startMenu()
+"""
+Hey, thanks for playing...
+This text-based adventure was coded in two days.
+Last line of code placed at 8:22PM, 3/20/2020.
+"""
