@@ -3,7 +3,6 @@
 # IMPORTS
 import time
 import random
-
 # VARS (IN THE ORDER THEY APPEAR IN THE CODE)
 birdcounter = 0
 inventoryKey = False
